@@ -4,8 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-
+import own.ryze.application.weixin.constant.WebConstant;
 import own.ryze.application.weixin.enums.Return;
 
 /**
@@ -33,17 +32,17 @@ public class PortReturn
 	 */
 	public static void put(Return r)
 	{
-		map.put("code", r.getCode());
-		map.put("msg", r.getMsg());
+		map.put(WebConstant.CODE, r.getCode());
+		map.put(WebConstant.MSG, r.getMsg());
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public static String returnJSON()
+	public static Map<String,Object> returnJSON()
 	{
-		return JSON.toJSONString(map);
+		return map;
 	}
 	
 	/**
@@ -51,7 +50,7 @@ public class PortReturn
 	 * @param r
 	 * @return
 	 */
-	public static String returnJSON(Return r)
+	public static Map<String,Object> returnJSON(Return r)
 	{
 		put(r);
 		return returnJSON();

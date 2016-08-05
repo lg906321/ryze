@@ -9,4 +9,6 @@ public interface UserService
 	User login(String username,String password);
 	
 	List<User> getAll();
+	
+	User create(User user);
 }
