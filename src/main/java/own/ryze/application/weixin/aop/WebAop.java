@@ -18,7 +18,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import lombok.extern.slf4j.Slf4j;
+import own.ryze.application.weixin.common.PortReturn;
+import own.ryze.application.weixin.constant.WebConstant;
 
 /**
  * web层切面
@@ -62,19 +67,23 @@ public class WebAop
 		log.info("response : {}", ret);
 	}
 
-	@Around("execution(public * own.ryze.application.weixin.web.*.*(..)) && args(..,bindingResult)")
-	public String doAround(ProceedingJoinPoint pjp, BindingResult bindingResult) throws Throwable
+	@Around("execution(public * own.ryze.application.weixin.web.*.*(..)) && args(..,br)")
+	public Object doAround(ProceedingJoinPoint pjp, BindingResult br) throws Throwable
 	{
 		// 是否有错
-		boolean hasErrors = bindingResult.hasErrors();
+		boolean hasErrors = br.hasErrors();
 		if (hasErrors)
 		{
-			List<ObjectError> allErrors = bindingResult.getAllErrors();
+			List<ObjectError> allErrors = br.getAllErrors();
 			for (ObjectError oe : allErrors)
 			{
-				return oe.getDefaultMessage();
+				JSONObject json = JSON.parseObject(oe.getDefaultMessage());
+				PortReturn.put(WebConstant.CODE, json.get(WebConstant.CODE));
+				PortReturn.put(WebConstant.MSG, json.get(WebConstant.MSG));
+				
+				return PortReturn.returnJSON();
 			}
 		}
-		return (String) pjp.proceed();
+		return pjp.proceed();
 	}
 }

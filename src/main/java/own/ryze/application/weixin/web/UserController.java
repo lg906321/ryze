@@ -25,7 +25,7 @@ import own.ryze.application.weixin.service.UserService;
 
 @RestController
 @RequestMapping("users")
-@Api("用户管理")
+@Api(value = "用户管理")
 public class UserController
 {
 	@Autowired
@@ -56,7 +56,7 @@ public class UserController
 	@ApiOperation(value = "创建用户",notes = "创建用户",response = User.class)
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Map<String,Object> create(@RequestBody @ApiParam(value = "用户视图",required = true)User user)
+	public Map<String,Object> create(@RequestBody @ApiParam(value = "用户实体",required = true)User user)
 	{
 		User data = userService.create(user);
 		
