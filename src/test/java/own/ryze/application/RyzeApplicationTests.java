@@ -1,18 +1,27 @@
 package own.ryze.application;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import own.ryze.application.weixin.common.PortReturn;
+import own.ryze.application.weixin.enums.Return;
+
+/*@RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = RyzeApplication.class)
-@WebAppConfiguration
-public class RyzeApplicationTests {
-
+@WebAppConfiguration*/
+public class RyzeApplicationTests
+{
 	@Test
-	public void contextLoads() {
+	public void contextLoads()
+	{
+	}
+	
+	@Test
+	public void testMap()
+	{
+		PortReturn.put("data", "test");
+		PortReturn.put(Return.SUCCESS);
+		
+		System.out.println(PortReturn.returnJSON());
 	}
 
 }

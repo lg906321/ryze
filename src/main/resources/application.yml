@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  http:
+    encoding:
+      charset: utf-8
+  aop:
+    auto: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/ryze
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+server:
+  context-path: /ryze
+  port: 80
