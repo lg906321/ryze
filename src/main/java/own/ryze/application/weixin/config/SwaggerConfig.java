@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig
 {
-	private static String application_json = "application/json;charset=utf-8;";
+	private static String application_json = "application/hal+json;charset=utf-8;";
 	
 	@Bean
 	public Docket createRestApi()
