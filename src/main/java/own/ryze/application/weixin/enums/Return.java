@@ -8,7 +8,9 @@ package own.ryze.application.weixin.enums;
 public enum Return
 {
 	SUCCESS(0, "SUCCESS"),
-	FAIL(1,"FAIL");
+	ERROR(9999,"ERROR"),
+	FAIL(1,"FAIL"),
+	CUSTOM;//自定义
 	
 	private int code;
 	private String msg;

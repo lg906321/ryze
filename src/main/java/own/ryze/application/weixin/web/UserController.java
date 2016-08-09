@@ -1,13 +1,12 @@
 package own.ryze.application.weixin.web;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,51 +17,70 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import own.ryze.application.weixin.common.PortReturn;
-import own.ryze.application.weixin.constant.WebConstant;
 import own.ryze.application.weixin.enums.Return;
 import own.ryze.application.weixin.persistent.bean.User;
 import own.ryze.application.weixin.service.UserService;
+import own.ryze.application.weixin.validator.group.Group;
 
 @RestController
 @RequestMapping("users")
-@Api(value = "用户管理")
+@Api(value = "用户管理", description = "用户管理")
 public class UserController
 {
 	@Autowired
 	private UserService userService;
-	
-	@ApiOperation(value = "登录",notes = "用户名密码登录",response = User.class)
-	@RequestMapping(value = "login",method = RequestMethod.POST)
-	public Map<String,Object> login(@RequestBody @Valid @ApiParam(value = "输入用户名、密码",required = true)User user,BindingResult br)
+
+	@ApiOperation(value = "登录", notes = "用户名密码登录<br/>" + "参数:<br/>" + "username - 用户名<br/>" + "password - 密码<br/>")
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public PortReturn<User> login(
+			@RequestBody @Validated(Group.Login.class) @ApiParam(value = "输入用户名、密码", required = true) User user,
+			BindingResult br)
 	{
 		User data = userService.login(user.getUsername(), user.getPassword());
-		
-		PortReturn.put(WebConstant.DATA, data);
-		
-		return PortReturn.returnJSON(Return.SUCCESS);
+
+		return PortReturn.returnJSON(data, Return.SUCCESS);
 	}
-	
-	@ApiOperation(value = "用户列表",notes = "用户列表",response = User.class)
+
+	@ApiOperation(value = "用户列表", notes = "用户列表")
 	@RequestMapping(method = RequestMethod.GET)
-	public Map<String,Object> all()
+	public PortReturn<List<User>> all()
 	{
 		List<User> datalist = userService.getAll();
-		
-		PortReturn.put(WebConstant.DATA, datalist);
-		
-		return PortReturn.returnJSON(Return.SUCCESS);
+
+		return PortReturn.returnJSON(datalist, Return.SUCCESS);
+
 	}
-	
-	@ApiOperation(value = "创建用户",notes = "创建用户",response = User.class)
+
+	@ApiOperation(value = "创建用户", notes = "创建用户<br/>" + "username - 用户名<br/>" + "password - 密码<br/>"
+			+ "mobile - 手机号<br/>")
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Map<String,Object> create(@RequestBody @ApiParam(value = "用户实体",required = true)User user)
+	public PortReturn<User> create(
+			@RequestBody @Validated(Group.Create.class) @ApiParam(value = "用户实体", required = true) User user,
+			BindingResult br)
 	{
 		User data = userService.create(user);
-		
-		PortReturn.put(WebConstant.DATA,data);
-		
+
+		return PortReturn.returnJSON(data, Return.SUCCESS);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	public PortReturn<User> modify(
+			@RequestBody @Validated(Group.Modify.class) @ApiParam(value = "用户实体", required = true) User user,
+			BindingResult br)
+	{
+		User data = userService.moidfy(user);
+
+		return PortReturn.returnJSON(data, Return.SUCCESS);
+	}
+
+	@ApiOperation(value = "删除用户", notes = "删除用户")
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public PortReturn<Object> remove(@PathVariable @ApiParam(value = "用户ID", required = true) Long id)
+	{
+		userService.remove(id);
+
 		return PortReturn.returnJSON(Return.SUCCESS);
 	}
-	
+
 }

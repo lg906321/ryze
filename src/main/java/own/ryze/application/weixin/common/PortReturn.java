@@ -1,58 +1,56 @@
 package own.ryze.application.weixin.common;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
 
-import own.ryze.application.weixin.constant.WebConstant;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import own.ryze.application.weixin.enums.Return;
 
 /**
  * 接口返回值
+ * 
  * @author LCY
+ * @param <T>
  *
  */
-public class PortReturn
+@Data
+public class PortReturn<T> implements Serializable
 {
-	private static Map<String,Object> map = Collections.synchronizedMap(new HashMap<String,Object>());
-	
 	/**
 	 * 
-	 * @param key
-	 * @param value
 	 */
-	public static void put(String key,Object value)
+	private static final long serialVersionUID = -5849564424292078824L;
+
+	@ApiModelProperty(value = "接口返回码")
+	private int code;
+	@ApiModelProperty(value = "接口返回码描述")
+	private String msg;
+	@ApiModelProperty(value = "接口返回数据")
+	private T data;
+
+	public static <T> PortReturn<T> returnJSON(T data, Return r)
 	{
-		map.put(key, value);
+		PortReturn<T> portReturn = new PortReturn<T>();
+
+		portReturn.setCode(r.getCode());
+		portReturn.setMsg(r.getMsg());
+		portReturn.setData(data);
+
+		return portReturn;
 	}
-	
-	/**
-	 * 
-	 * @param r
-	 */
-	public static void put(Return r)
+
+	public static <T> PortReturn<T> returnJSON(Return r)
 	{
-		map.put(WebConstant.CODE, r.getCode());
-		map.put(WebConstant.MSG, r.getMsg());
+		return returnJSON(null, r);
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static Map<String,Object> returnJSON()
+
+	public static <T> PortReturn<T> returnJSON(int code, String msg)
 	{
-		return map;
+		Return custom = Return.CUSTOM;
+		custom.setCode(code);
+		custom.setMsg(msg);
+
+		return returnJSON(custom);
 	}
-	
-	/**
-	 * 
-	 * @param r
-	 * @return
-	 */
-	public static Map<String,Object> returnJSON(Return r)
-	{
-		put(r);
-		return returnJSON();
-	}
+
 }

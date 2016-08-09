@@ -11,4 +11,8 @@ public interface UserService
 	List<User> getAll();
 	
 	User create(User user);
+	
+	User moidfy(User user);
+	
+	void remove(Long id);
 }

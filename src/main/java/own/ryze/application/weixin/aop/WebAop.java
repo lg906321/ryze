@@ -36,7 +36,7 @@ import own.ryze.application.weixin.constant.WebConstant;
 @Slf4j
 public class WebAop
 {
-	@Pointcut("execution(public * own.ryze.application.weixin.web..*.*(..))")
+	@Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
 	public void web()
 	{
 
@@ -45,12 +45,13 @@ public class WebAop
 	@Before("web()")
 	public void doBefore(JoinPoint joinPoint) throws Throwable
 	{
-
 		// 接收到请求，记录请求内容
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 
 		// 记录下请求内容
+		log.info("session : {}",request.getSession());
+		log.info("request : {}",request);
 		log.info("url : {}", request.getRequestURL());
 		log.info("http_method : {}", request.getMethod());
 		log.info("ip : {}", request.getRemoteAddr());
@@ -67,10 +68,9 @@ public class WebAop
 		log.info("response : {}", ret);
 	}
 
-	@Around("execution(public * own.ryze.application.weixin.web.*.*(..)) && args(..,br)")
+	@Around("web() && args(..,br)")
 	public Object doAround(ProceedingJoinPoint pjp, BindingResult br) throws Throwable
 	{
-		// 是否有错
 		boolean hasErrors = br.hasErrors();
 		if (hasErrors)
 		{
@@ -78,12 +78,11 @@ public class WebAop
 			for (ObjectError oe : allErrors)
 			{
 				JSONObject json = JSON.parseObject(oe.getDefaultMessage());
-				PortReturn.put(WebConstant.CODE, json.get(WebConstant.CODE));
-				PortReturn.put(WebConstant.MSG, json.get(WebConstant.MSG));
-				
-				return PortReturn.returnJSON();
+
+				return PortReturn.returnJSON(json.getIntValue(WebConstant.CODE),json.getString(WebConstant.MSG));
 			}
 		}
 		return pjp.proceed();
+
 	}
 }

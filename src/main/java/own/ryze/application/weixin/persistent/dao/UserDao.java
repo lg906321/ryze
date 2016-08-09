@@ -9,7 +9,6 @@ import own.ryze.application.weixin.persistent.bean.User;
 public interface UserDao extends JpaRepository<User, Long>
 {
 	User findByUsernameAndPassword(String username, String password);
-
+	
 	List<User> findAll();
-
 }

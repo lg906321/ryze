@@ -1,7 +1,5 @@
 package own.ryze.application.weixin.web.exception;
 
-import java.util.Map;
-
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,8 +17,8 @@ public class WebExceptionHandler
 {
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
-	public Map<String,Object> fail()
+	public PortReturn<Object> error()
 	{
-		return PortReturn.returnJSON(Return.FAIL);
+		return PortReturn.returnJSON(Return.ERROR);
 	}
 }
