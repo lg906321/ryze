@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import own.ryze.application.weixin.persistent.bean.User;
 
@@ -20,13 +19,13 @@ public interface UserDao extends JpaRepository<User, Long>
 	@Cacheable(key = "#p0")
 	User findByMobileAndPassword(String mobile, String password);
 
+	@Cacheable(key = "methodName")
 	List<User> findAll();
 
 	@SuppressWarnings("unchecked")
 	@CachePut(key = "#p0.mobile")
 	User save(User user);
 	
-	@Transactional
 	@CacheEvict(key = "#p0")
 	@Modifying
 	@Query("DELETE FROM User WHERE mobile = :mobile")

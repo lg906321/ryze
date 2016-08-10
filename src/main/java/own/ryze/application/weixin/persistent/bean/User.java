@@ -30,7 +30,7 @@ public class User implements Serializable
 	@NotNull(message = "{id.null}", groups = { Group.Modify.class })
 	private Long id;
 	@Column(nullable = false)
-	@NotBlank(message = "{username.blank}", groups = { Group.Create.class, Group.Modify.class, Group.Login.class })
+	@NotBlank(message = "{username.blank}", groups = { Group.Create.class, Group.Modify.class})
 	@ApiModelProperty("用户名")
 	private String username;
 	@Column(nullable = false)
@@ -38,7 +38,7 @@ public class User implements Serializable
 	@ApiModelProperty("密码")
 	private String password;
 	@Column(length = 11,nullable = false,unique = true,updatable = false)
-	@Mobile(groups = {Group.Create.class})
+	@Mobile(groups = {Group.Create.class, Group.Login.class })
 	@ApiModelProperty("手机号")
 	private String mobile;
 	@Column(nullable = false, updatable = false)

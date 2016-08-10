@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import own.ryze.application.weixin.persistent.bean.User;
 import own.ryze.application.weixin.persistent.dao.UserDao;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
+	@Transactional
 	public User create(User user)
 	{
 		Date date = new Date();
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService
 	}
 	
 	@Override
+	@Transactional
 	public User moidfy(User user)
 	{
 		user.setUpdatetime(new Date());
@@ -48,6 +51,7 @@ public class UserServiceImpl implements UserService
 
 
 	@Override
+	@Transactional
 	public void remove(String mobile)
 	{
 		userDao.delete(mobile);
