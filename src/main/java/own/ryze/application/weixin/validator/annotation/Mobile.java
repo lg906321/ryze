@@ -12,6 +12,7 @@ import own.ryze.application.weixin.validator.annotation.impl.MobileImpl;
 
 /**
  * 手机号校验
+ * 
  * @author LCY
  *
  */
@@ -20,7 +21,9 @@ import own.ryze.application.weixin.validator.annotation.impl.MobileImpl;
 @Constraint(validatedBy = MobileImpl.class)
 public @interface Mobile
 {
-	String message();  
-    Class<?>[] groups() default {};  
-    Class<? extends Payload>[] payload() default {};  
+	String message();
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
 }
