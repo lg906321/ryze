@@ -21,7 +21,7 @@ import own.ryze.application.weixin.validator.annotation.impl.MobileImpl;
 @Constraint(validatedBy = MobileImpl.class)
 public @interface Mobile
 {
-	String message();
+	String message() default "{mobile.verify}";
 
 	Class<?>[] groups() default {};
 

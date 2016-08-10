@@ -6,7 +6,7 @@ import own.ryze.application.weixin.persistent.bean.User;
 
 public interface UserService
 {
-	User login(String username,String password);
+	User login(String mobile,String password);
 	
 	List<User> getAll();
 	
@@ -14,5 +14,5 @@ public interface UserService
 	
 	User moidfy(User user);
 	
-	void remove(Long id);
+	void remove(String mobile);
 }

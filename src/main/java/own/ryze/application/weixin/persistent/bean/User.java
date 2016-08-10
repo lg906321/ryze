@@ -37,8 +37,8 @@ public class User implements Serializable
 	@NotBlank(message = "{password.blank}", groups = { Group.Create.class, Group.Modify.class, Group.Login.class })
 	@ApiModelProperty("密码")
 	private String password;
-	@Column(length = 11)
-	@Mobile(message = "{mobile.verify}", groups = { Group.Create.class, Group.Modify.class })
+	@Column(length = 11,nullable = false,unique = true,updatable = false)
+	@Mobile(groups = {Group.Create.class})
 	@ApiModelProperty("手机号")
 	private String mobile;
 	@Column(nullable = false, updatable = false)

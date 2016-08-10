@@ -21,11 +21,11 @@ public class PortReturn<T> implements Serializable
 	 */
 	private static final long serialVersionUID = -5849564424292078824L;
 
-	@ApiModelProperty(value = "接口返回码")
+	@ApiModelProperty("接口返回码")
 	private int code;
-	@ApiModelProperty(value = "接口返回码描述")
+	@ApiModelProperty("接口返回码描述")
 	private String msg;
-	@ApiModelProperty(value = "接口返回数据")
+	@ApiModelProperty("接口返回数据")
 	private T data;
 
 	public static <T> PortReturn<T> returnJSON(T data, Return r)

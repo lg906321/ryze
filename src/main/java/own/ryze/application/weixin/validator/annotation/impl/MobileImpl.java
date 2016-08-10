@@ -24,7 +24,8 @@ public class MobileImpl implements ConstraintValidator<Mobile, String>
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context)
 	{
-		return (StringUtil.isNotEmpty(value) && value.matches(MOBILE));
+		if(StringUtil.isEmpty(value))return false;
+		return value.matches(MOBILE);
 	}
 
 }

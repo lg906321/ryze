@@ -68,7 +68,7 @@ public class WebAop
 		log.info("response : {}", ret);
 	}
 
-	@Around("web() && args(..,br)")
+	@Around("web() && args(*,br,..)")
 	public Object doAround(ProceedingJoinPoint pjp, BindingResult br) throws Throwable
 	{
 		boolean hasErrors = br.hasErrors();
@@ -83,6 +83,5 @@ public class WebAop
 			}
 		}
 		return pjp.proceed();
-
 	}
 }

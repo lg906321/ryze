@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService
 	private UserDao userDao;
 	
 	@Override
-	public User login(String username, String password)
+	public User login(String mobile, String password)
 	{
-		return userDao.findByUsernameAndPassword(username, password);
+		return userDao.findByMobileAndPassword(mobile, password);
 	}
 
 	@Override
@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService
 		Date date = new Date();
 		user.setCreatetime(date);
 		user.setUpdatetime(date);
+		
 		return userDao.save(user);
 	}
 	
@@ -47,9 +48,9 @@ public class UserServiceImpl implements UserService
 
 
 	@Override
-	public void remove(Long id)
+	public void remove(String mobile)
 	{
-		userDao.delete(id);
+		userDao.delete(mobile);
 	}
 
 }

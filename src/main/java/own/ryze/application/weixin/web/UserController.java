@@ -30,13 +30,13 @@ public class UserController
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation(value = "登录", notes = "用户名密码登录<br/>" + "参数:<br/>" + "username - 用户名<br/>" + "password - 密码<br/>")
+	@ApiOperation(value = "登录", notes = "手机号密码登录<br/>" + "参数:<br/>" + "mobile - 手机号<br/>" + "password - 密码<br/>")
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public PortReturn<User> login(
-			@RequestBody @Validated(Group.Login.class) @ApiParam(value = "输入用户名、密码", required = true) User user,
+			@RequestBody @Validated(Group.Login.class) @ApiParam(value = "输入手机号、密码", required = true) User user,
 			BindingResult br)
 	{
-		User data = userService.login(user.getUsername(), user.getPassword());
+		User data = userService.login(user.getMobile(), user.getPassword());
 
 		return PortReturn.returnJSON(data, Return.SUCCESS);
 	}
@@ -64,21 +64,22 @@ public class UserController
 		return PortReturn.returnJSON(data, Return.SUCCESS);
 	}
 
+	@ApiOperation(value = "更新用户", notes = "根据主键更新用户信息")
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	public PortReturn<User> modify(
 			@RequestBody @Validated(Group.Modify.class) @ApiParam(value = "用户实体", required = true) User user,
-			BindingResult br)
+			BindingResult br,@PathVariable Long id)
 	{
 		User data = userService.moidfy(user);
 
 		return PortReturn.returnJSON(data, Return.SUCCESS);
 	}
 
-	@ApiOperation(value = "删除用户", notes = "删除用户")
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public PortReturn<Object> remove(@PathVariable @ApiParam(value = "用户ID", required = true) Long id)
+	@ApiOperation(value = "删除用户", notes = "根据手机号删除用户")
+	@RequestMapping(value = "/{mobile}", method = RequestMethod.DELETE)
+	public PortReturn<Object> remove(@PathVariable @ApiParam(value = "手机号", required = true) String mobile)
 	{
-		userService.remove(id);
+		userService.remove(mobile);
 
 		return PortReturn.returnJSON(Return.SUCCESS);
 	}
