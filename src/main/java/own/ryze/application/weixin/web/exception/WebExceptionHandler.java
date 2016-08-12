@@ -15,10 +15,10 @@ import own.ryze.application.weixin.enums.Return;
 @ControllerAdvice
 public class WebExceptionHandler
 {
-	/*@ExceptionHandler(value = Exception.class)
+	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
 	public PortReturn<Object> error()
 	{
 		return PortReturn.returnJSON(Return.ERROR);
-	}*/
+	}
 }
