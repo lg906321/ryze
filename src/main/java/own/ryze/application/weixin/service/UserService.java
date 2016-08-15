@@ -8,6 +8,8 @@ public interface UserService
 {
 	User login(String mobile,String password);
 	
+	User getByMobile(String mobile);
+	
 	List<User> getAll();
 	
 	User create(User user);

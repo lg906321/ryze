@@ -27,7 +27,7 @@ public class PortReturn<T> implements Serializable
 	private String msg;
 	@ApiModelProperty("接口返回数据")
 	private T data;
-
+	
 	public static <T> PortReturn<T> returnJSON(T data, Return r)
 	{
 		PortReturn<T> portReturn = new PortReturn<T>();

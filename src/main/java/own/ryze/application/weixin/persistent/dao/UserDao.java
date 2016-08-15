@@ -18,8 +18,10 @@ public interface UserDao extends JpaRepository<User, Long>
 {
 	@Cacheable(key = "#p0")
 	User findByMobileAndPassword(String mobile, String password);
+	
+	@Cacheable(key = "#p0")
+	User findByMobile(String mobile);
 
-	@Cacheable(key = "methodName")
 	List<User> findAll();
 
 	@SuppressWarnings("unchecked")

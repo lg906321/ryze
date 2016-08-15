@@ -22,6 +22,12 @@ public class UserServiceImpl implements UserService
 	{
 		return userDao.findByMobileAndPassword(mobile, password);
 	}
+	
+	@Override
+	public User getByMobile(String mobile)
+	{
+		return userDao.findByMobile(mobile);
+	}
 
 	@Override
 	public List<User> getAll()

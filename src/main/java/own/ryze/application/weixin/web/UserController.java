@@ -50,6 +50,15 @@ public class UserController
 		return PortReturn.returnJSON(datalist, Return.SUCCESS);
 
 	}
+	
+	@ApiOperation(value = "手机号查找用户",notes = "手机号查找用户")
+	@RequestMapping(value = "/{mobile}",method = RequestMethod.GET)
+	public PortReturn<User> getByMobile(@PathVariable @ApiParam(value = "用户手机号",required = true)String mobile)
+	{
+		User data = userService.getByMobile(mobile);
+
+		return PortReturn.returnJSON(data, Return.SUCCESS);
+	}
 
 	@ApiOperation(value = "创建用户", notes = "创建用户<br/>" + "username - 用户名<br/>" + "password - 密码<br/>"
 			+ "mobile - 手机号<br/>")
