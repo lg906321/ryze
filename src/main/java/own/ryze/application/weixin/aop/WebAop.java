@@ -50,14 +50,12 @@ public class WebAop
 		HttpServletRequest request = attributes.getRequest();
 
 		// 记录下请求内容
-		log.info("session : {}",request.getSession());
-		log.info("request : {}",request);
 		log.info("url : {}", request.getRequestURL());
-		log.info("http_method : {}", request.getMethod());
-		log.info("ip : {}", request.getRemoteAddr());
-		log.info("class_method : {}.{}", joinPoint.getSignature().getDeclaringTypeName(),
+		log.info("请求方式 : {}", request.getMethod());
+		log.info("IP地址 : {}", request.getRemoteAddr());
+		log.info("方法 : {}.{}", joinPoint.getSignature().getDeclaringTypeName(),
 				joinPoint.getSignature().getName());
-		log.info("args : {}", Arrays.toString(joinPoint.getArgs()));
+		log.info("参数 : {}", Arrays.toString(joinPoint.getArgs()));
 
 	}
 
@@ -65,7 +63,7 @@ public class WebAop
 	public void doAfterReturning(Object ret) throws Throwable
 	{
 		// 处理完请求，返回内容
-		log.info("response : {}", ret);
+		log.info("响应 : {}", ret);
 	}
 
 	@Around("web() && args(*,br,..)")

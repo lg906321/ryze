@@ -15,18 +15,22 @@ import org.springframework.data.redis.serializer.SerializationException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 修改redis默认json序列化工具
  * 
  * @author LCY
  *
  */
+@Slf4j
 @Configuration
 public class CacheConfig
 {
 	@Bean
 	public RedisSerializer<Object> fastJson2JsonRedisSerializer()
 	{
+		log.info("FastjsonRedisSerializer初始化");
 		return new FastJson2JsonRedisSerializer<Object>(Object.class);
 	}
 
@@ -34,6 +38,7 @@ public class CacheConfig
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory factory,
 			RedisSerializer<Object> fastJson2JsonRedisSerializer)
 	{
+		log.info("StringRedisTeamplate初始化");
 		StringRedisTemplate template = new StringRedisTemplate(factory);
 
 		template.setValueSerializer(fastJson2JsonRedisSerializer);
@@ -46,6 +51,7 @@ public class CacheConfig
 	@Bean
 	public CacheManager cacheManager(StringRedisTemplate stringRedisTemplate)
 	{
+		log.info("缓存管理器初始化");
 		RedisCacheManager redisCacheManager = new RedisCacheManager(stringRedisTemplate);
 		long seconds = TimeUnit.MINUTES.toSeconds(30);
 		//缓存30分钟

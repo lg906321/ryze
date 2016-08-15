@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.google.common.collect.Sets;
 
+import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -15,6 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+@Slf4j
 public class SwaggerConfig
 {
 	private static String application_json = "application/hal+json;charset=utf-8;";
@@ -22,9 +24,8 @@ public class SwaggerConfig
 	@Bean
 	public Docket createRestApi()
 	{
-		/**
-		 * api info
-		 */
+		log.info("Swagger2初始化");
+		
 		ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
 		apiInfoBuilder.title("ryze");
 		apiInfoBuilder.description("QQ:1159930219");

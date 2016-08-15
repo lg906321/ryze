@@ -20,7 +20,7 @@ public class PortReturn<T> implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -5849564424292078824L;
-
+	
 	@ApiModelProperty("接口返回码")
 	private int code;
 	@ApiModelProperty("接口返回码描述")

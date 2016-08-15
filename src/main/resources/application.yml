@@ -1,20 +1,25 @@
 spring:
+  #jpa设置
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    database: mysql
+  #http
   http:
     encoding:
       charset: utf-8
+  #日志颜色
+  output:
+    ansi:
+      enabled: always
+  #开启aop使用jdk代理
   aop:
     auto: true
-  datasource:
-    url: jdbc:mysql://localhost:3306/ryze
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
   redis:
     port: 6379
+  profiles:
+    include: datasource
 server:
   context-path: /ryze
   port: 80
