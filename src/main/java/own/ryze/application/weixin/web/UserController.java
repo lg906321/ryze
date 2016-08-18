@@ -17,7 +17,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import own.ryze.application.weixin.common.PortReturn;
-import own.ryze.application.weixin.enums.Return;
 import own.ryze.application.weixin.persistent.bean.User;
 import own.ryze.application.weixin.service.UserService;
 import own.ryze.application.weixin.validator.group.Group;
@@ -33,31 +32,31 @@ public class UserController
 	@ApiOperation(value = "登录", notes = "手机号密码登录<br/>" + "参数:<br/>" + "mobile - 手机号<br/>" + "password - 密码<br/>")
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public PortReturn<User> login(
-			@RequestBody @Validated(Group.Login.class) @ApiParam(value = "输入手机号、密码", required = true) User user,
+			@RequestBody @Validated(Group.Login.class) @ApiParam(value = "输入手机号、密码", required = true) final User user,
 			BindingResult br)
 	{
-		User data = userService.login(user.getMobile(), user.getPassword());
+		final User data = userService.login(user.getMobile(), user.getPassword());
 
-		return PortReturn.returnJSON(data, Return.SUCCESS);
+		return PortReturn.success(data);
 	}
 
 	@ApiOperation(value = "用户列表", notes = "用户列表")
 	@RequestMapping(method = RequestMethod.GET)
 	public PortReturn<List<User>> all()
 	{
-		List<User> datalist = userService.getAll();
+		final List<User> datalist = userService.getAll();
 
-		return PortReturn.returnJSON(datalist, Return.SUCCESS);
+		return PortReturn.success(datalist);
 
 	}
-	
-	@ApiOperation(value = "手机号查找用户",notes = "手机号查找用户")
-	@RequestMapping(value = "/{mobile}",method = RequestMethod.GET)
-	public PortReturn<User> getByMobile(@PathVariable @ApiParam(value = "用户手机号",required = true)String mobile)
-	{
-		User data = userService.getByMobile(mobile);
 
-		return PortReturn.returnJSON(data, Return.SUCCESS);
+	@ApiOperation(value = "手机号查找用户", notes = "手机号查找用户")
+	@RequestMapping(value = "/{mobile}", method = RequestMethod.GET)
+	public PortReturn<User> getByMobile(@PathVariable @ApiParam(value = "用户手机号", required = true) final String mobile)
+	{
+		final User data = userService.getByMobile(mobile);
+
+		return PortReturn.success(data);
 	}
 
 	@ApiOperation(value = "创建用户", notes = "创建用户<br/>" + "username - 用户名<br/>" + "password - 密码<br/>"
@@ -65,32 +64,32 @@ public class UserController
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
 	public PortReturn<User> create(
-			@RequestBody @Validated(Group.Create.class) @ApiParam(value = "用户实体", required = true) User user,
+			@RequestBody @Validated(Group.Create.class) @ApiParam(value = "用户实体", required = true) final User user,
 			BindingResult br)
 	{
-		User data = userService.create(user);
+		final User data = userService.create(user);
 
-		return PortReturn.returnJSON(data, Return.SUCCESS);
+		return PortReturn.success(data);
 	}
 
 	@ApiOperation(value = "更新用户", notes = "根据主键更新用户信息")
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	public PortReturn<User> modify(
-			@RequestBody @Validated(Group.Modify.class) @ApiParam(value = "用户实体", required = true) User user,
-			BindingResult br,@PathVariable Long id)
+			@RequestBody @Validated(Group.Modify.class) @ApiParam(value = "用户实体", required = true) final User user,
+			BindingResult br, @PathVariable Long id)
 	{
-		User data = userService.moidfy(user);
+		final User data = userService.moidfy(user);
 
-		return PortReturn.returnJSON(data, Return.SUCCESS);
+		return PortReturn.success(data);
 	}
 
 	@ApiOperation(value = "删除用户", notes = "根据手机号删除用户")
 	@RequestMapping(value = "/{mobile}", method = RequestMethod.DELETE)
-	public PortReturn<Object> remove(@PathVariable @ApiParam(value = "手机号", required = true) String mobile)
+	public PortReturn<Object> remove(@PathVariable @ApiParam(value = "手机号", required = true) final String mobile)
 	{
 		userService.remove(mobile);
 
-		return PortReturn.returnJSON(Return.SUCCESS);
+		return PortReturn.success(null);
 	}
 
 }

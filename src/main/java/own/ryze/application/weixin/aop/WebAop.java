@@ -23,7 +23,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 import own.ryze.application.weixin.common.PortReturn;
-import own.ryze.application.weixin.constant.WebConstant;
 
 /**
  * web层切面
@@ -46,8 +45,8 @@ public class WebAop
 	public void doBefore(JoinPoint joinPoint) throws Throwable
 	{
 		// 接收到请求，记录请求内容
-		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpServletRequest request = attributes.getRequest();
+		final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		final HttpServletRequest request = attributes.getRequest();
 
 		// 记录下请求内容
 		log.info("url : {}", request.getRequestURL());
@@ -69,15 +68,15 @@ public class WebAop
 	@Around("web() && args(*,br,..)")
 	public Object doAround(ProceedingJoinPoint pjp, BindingResult br) throws Throwable
 	{
-		boolean hasErrors = br.hasErrors();
+		final boolean hasErrors = br.hasErrors();
 		if (hasErrors)
 		{
-			List<ObjectError> allErrors = br.getAllErrors();
+			final List<ObjectError> allErrors = br.getAllErrors();
 			for (ObjectError oe : allErrors)
 			{
-				JSONObject json = JSON.parseObject(oe.getDefaultMessage());
+				final JSONObject json = JSON.parseObject(oe.getDefaultMessage());
 
-				return PortReturn.returnJSON(json.getIntValue(WebConstant.CODE),json.getString(WebConstant.MSG));
+				return PortReturn.returnJSON(json.getInteger("code"),json.getString("msg"));
 			}
 		}
 		return pjp.proceed();

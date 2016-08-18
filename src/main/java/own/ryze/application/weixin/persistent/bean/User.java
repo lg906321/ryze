@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -43,9 +45,11 @@ public class User implements Serializable
 	private String mobile;
 	@Column(nullable = false, updatable = false)
 	@ApiModelProperty("创建时间")
+	@CreationTimestamp
 	private Date createtime;
 	@Column(nullable = false)
 	@ApiModelProperty("更新时间")
+	@UpdateTimestamp
 	private Date updatetime;
 
 }

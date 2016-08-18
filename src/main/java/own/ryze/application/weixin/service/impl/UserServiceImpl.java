@@ -1,6 +1,5 @@
 package own.ryze.application.weixin.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +16,13 @@ public class UserServiceImpl implements UserService
 	private UserDao userDao;
 	
 	@Override
-	public User login(String mobile, String password)
+	public User login(final String mobile, final String password)
 	{
 		return userDao.findByMobileAndPassword(mobile, password);
 	}
 	
 	@Override
-	public User getByMobile(String mobile)
+	public User getByMobile(final String mobile)
 	{
 		return userDao.findByMobile(mobile);
 	}
@@ -35,26 +34,20 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
-	public User create(User user)
+	public User create(final User user)
 	{
-		Date date = new Date();
-		user.setCreatetime(date);
-		user.setUpdatetime(date);
-		
 		return userDao.save(user);
 	}
 	
 	@Override
-	public User moidfy(User user)
+	public User moidfy(final User user)
 	{
-		user.setUpdatetime(new Date());
-		
 		return userDao.save(user);
 	}
 
 
 	@Override
-	public void remove(String mobile)
+	public void remove(final String mobile)
 	{
 		userDao.delete(mobile);
 	}

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import own.ryze.application.weixin.common.PortReturn;
-import own.ryze.application.weixin.enums.Return;
 
 /**
  * web异常处理器
@@ -19,6 +18,6 @@ public class WebExceptionHandler
 	@ResponseBody
 	public PortReturn<Object> error()
 	{
-		return PortReturn.returnJSON(Return.ERROR);
+		return PortReturn.error();
 	}
 }

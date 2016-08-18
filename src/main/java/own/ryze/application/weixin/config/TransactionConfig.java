@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 事务设置
+ * 
  * @author LCY
  *
  */
@@ -29,7 +30,7 @@ public class TransactionConfig
 	public PlatformTransactionManager transactionManager()
 	{
 		log.info("全局事务管理器初始化");
-		JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+		final JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
 		jpaTransactionManager.setDataSource(dataSource);
 		return jpaTransactionManager;
 	}

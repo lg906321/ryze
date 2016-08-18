@@ -27,7 +27,7 @@ public class FastjsonConfig
 	public HttpMessageConverters fastJsonHttpMessageConverters()
 	{
 		log.info("默认fastjson解析初始化");
-		
+
 		FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
 		FastJsonConfig fastJsonConfig = new FastJsonConfig();
 		fastJsonConfig.setCharset(Charset.forName("UTF-8"));

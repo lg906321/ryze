@@ -20,12 +20,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig
 {
 	private static String application_json = "application/hal+json;charset=utf-8;";
-	
+
 	@Bean
 	public Docket createRestApi()
 	{
 		log.info("Swagger2初始化");
-		
+
 		ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
 		apiInfoBuilder.title("ryze");
 		apiInfoBuilder.description("QQ:1159930219");
@@ -36,9 +36,9 @@ public class SwaggerConfig
 		docket.apiInfo(apiInfoBuilder.build());
 		docket.produces(Sets.newHashSet(application_json));
 		docket.consumes(Sets.newHashSet(application_json));
-		docket.protocols(Sets.newHashSet("http","https"));
+		docket.protocols(Sets.newHashSet("http", "https"));
 		docket.forCodeGeneration(true);
-		
+
 		return docket.select().apis(RequestHandlerSelectors.basePackage("own.ryze.application.weixin.web"))
 				.paths(PathSelectors.any()).build();
 

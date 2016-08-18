@@ -43,7 +43,7 @@ public class CacheConfig
 
 		template.setValueSerializer(fastJson2JsonRedisSerializer);
 
-		//初始化
+		// 初始化
 		template.afterPropertiesSet();
 		return template;
 	}
@@ -54,10 +54,10 @@ public class CacheConfig
 		log.info("缓存管理器初始化");
 		RedisCacheManager redisCacheManager = new RedisCacheManager(stringRedisTemplate);
 		long seconds = TimeUnit.MINUTES.toSeconds(30);
-		//缓存30分钟
+		// 缓存30分钟
 		redisCacheManager.setDefaultExpiration(seconds);
 		redisCacheManager.afterPropertiesSet();
-		
+
 		return redisCacheManager;
 	}
 }

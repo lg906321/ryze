@@ -52,7 +52,7 @@ public class DataSourceConfig
 	{
 		log.info("从库初始化");
 		return DataSourceBuilder.create().type(dataSourceType).build();
-	}             
+	}
 
 	@Bean
 	@Primary
@@ -77,7 +77,7 @@ public class DataSourceConfig
 
 		return dataSourceRemote;
 	}
-	
+
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManager(EntityManagerFactoryBuilder builder)
 	{

@@ -16,41 +16,41 @@ import own.ryze.application.weixin.enums.Return;
 @Data
 public class PortReturn<T> implements Serializable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5849564424292078824L;
-	
+
 	@ApiModelProperty("接口返回码")
-	private int code;
+	public final int code;
 	@ApiModelProperty("接口返回码描述")
-	private String msg;
+	public final String msg;
 	@ApiModelProperty("接口返回数据")
-	private T data;
-	
-	public static <T> PortReturn<T> returnJSON(T data, Return r)
+	public final T data;
+
+	public static <T> PortReturn<T> success(final T data)
 	{
-		PortReturn<T> portReturn = new PortReturn<T>();
-
-		portReturn.setCode(r.getCode());
-		portReturn.setMsg(r.getMsg());
-		portReturn.setData(data);
-
-		return portReturn;
+		Return success = Return.SUCCESS;
+		return returnJSON(success.code, success.msg,data);
 	}
 
-	public static <T> PortReturn<T> returnJSON(Return r)
+	public static <T> PortReturn<T> fail()
 	{
-		return returnJSON(null, r);
+		Return fail = Return.FAIL;
+		return returnJSON(fail.code, fail.msg);
 	}
 
-	public static <T> PortReturn<T> returnJSON(int code, String msg)
+	public static <T> PortReturn<T> error()
 	{
-		Return custom = Return.CUSTOM;
-		custom.setCode(code);
-		custom.setMsg(msg);
+		Return error = Return.ERROR;
+		return returnJSON(error.code, error.msg);
+	}
 
-		return returnJSON(custom);
+	public static <T> PortReturn<T> returnJSON(final int code, final String msg, final T data)
+	{
+		return new PortReturn<T>(code, msg, data);
+	}
+
+	public static <T> PortReturn<T> returnJSON(final int code, final String msg)
+	{
+		return returnJSON(code, msg,null);
 	}
 
 }

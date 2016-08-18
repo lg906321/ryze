@@ -12,9 +12,12 @@ import java.util.function.Predicate;
  */
 public class StringUtil
 {
+	private StringUtil(){}
+	
 	public static Predicate<String> isEmpty = s -> s == null || "".equals(s) || "null".equals(s);
 
 	public static Predicate<String> isNotEmpty = s -> s != null && !"".equals(s) && !"null".equals(s);
+	
 
 	public static Predicate<String> isMobile = s -> s.matches(
 			"^(1[3,5,8,7]{1}[\\d]{9})|(((400)-(\\d{3})-(\\d{4}))|^((\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1})|(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1}))$)$");
@@ -46,13 +49,13 @@ public class StringUtil
 	 * @return
 	 */
 	@SafeVarargs
-	public static boolean validate(String str, Predicate<String>... predicates)
+	public static boolean validate(final String str, final Predicate<String>... predicates)
 	{
 		List<Predicate<String>> list = Arrays.asList(predicates);
 		list.forEach(p -> predicate = and(predicate, p));
 		return predicate.test(str);
 	}
-
+	
 	/**
 	 * 校验条件拼接
 	 * 
@@ -62,7 +65,7 @@ public class StringUtil
 	 *            辅条件
 	 * @return
 	 */
-	private static Predicate<String> and(Predicate<String> main, Predicate<String> support)
+	private static Predicate<String> and(final Predicate<String> main, final Predicate<String> support)
 	{
 		return main.and(support);
 	}

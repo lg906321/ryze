@@ -20,11 +20,11 @@ public class RedisCacheUtil
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 
-	public String get(String key)
+	public String get(final String key)
 	{
 		try
 		{
-			String value = stringRedisTemplate.opsForValue().get(key);
+			final String value = stringRedisTemplate.opsForValue().get(key);
 			log.info("redis get : key{},value{}", key, value);
 			return value;
 		}
@@ -35,7 +35,7 @@ public class RedisCacheUtil
 		}
 	}
 
-	public boolean put(String key, String value)
+	public boolean put(final String key, final String value)
 	{
 		try
 		{
@@ -50,7 +50,7 @@ public class RedisCacheUtil
 		return true;
 	}
 
-	public boolean delete(String key)
+	public boolean delete(final String key)
 	{
 		try
 		{
@@ -71,11 +71,11 @@ public class RedisCacheUtil
 	 * @param key
 	 * @return
 	 */
-	public boolean exists(String key)
+	public boolean exists(final String key)
 	{
 		return stringRedisTemplate.execute((RedisConnection redisConnection) ->
 		{
-			Boolean exists = redisConnection.exists(key.getBytes());
+			final Boolean exists = redisConnection.exists(key.getBytes());
 			log.info("redis exists : key{} is {}", key, exists);
 			return exists;
 		});
@@ -88,7 +88,7 @@ public class RedisCacheUtil
 	 * @param value
 	 * @return
 	 */
-	public boolean refresh(String key, String value)
+	public boolean refresh(final String key, final String value)
 	{
 		if (exists(key)) delete(key);
 		return put(key, value);
@@ -98,7 +98,7 @@ public class RedisCacheUtil
 	{
 		return stringRedisTemplate.execute((RedisConnection redisConnection) ->
 		{
-			long size = redisConnection.dbSize();
+			final long size = redisConnection.dbSize();
 			log.info("redis size : {}", size);
 			return size;
 		});
@@ -106,7 +106,7 @@ public class RedisCacheUtil
 
 	public boolean flush()
 	{
-		String result = stringRedisTemplate.execute((RedisConnection redisConection) ->
+		final String result = stringRedisTemplate.execute((RedisConnection redisConection) ->
 		{
 			redisConection.flushDb();
 			log.info("redis flush");
@@ -119,8 +119,8 @@ public class RedisCacheUtil
 	{
 		return stringRedisTemplate.execute((RedisConnection redisConnection) ->
 		{
-			String ping = redisConnection.ping();
-			log.info("redis ping : {}",ping);
+			final String ping = redisConnection.ping();
+			log.info("redis ping : {}", ping);
 			return ping;
 		});
 	}
