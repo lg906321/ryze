@@ -40,10 +40,10 @@ public class StringUtil
 	 * 首字母大写
 	 */
 	public static Function<String, String> toUpperCaseFirstOne = str -> (new StringBuilder())
-			.append(Character.toUpperCase(str.charAt(0))).append(str.toUpperCase().substring(1)).toString();
+			.append(Character.toUpperCase(str.charAt(0))).append(str.toLowerCase().substring(1)).toString();
 
 	/**
-	 * 多条件校验字符串
+	 * 多条件校验字符串 (后写先校验)
 	 * 
 	 * @param str
 	 *            校验字符串
@@ -58,7 +58,7 @@ public class StringUtil
 	}
 	
 	/**
-	 * 多操作修改字符串
+	 * 多操作修改字符串(后写先操作)
 	 * 
 	 * @param str
 	 *            字符串
