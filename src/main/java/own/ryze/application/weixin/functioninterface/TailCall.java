@@ -6,7 +6,7 @@ import java.util.stream.Stream;
  * 递归
  * @author LCY
  *
- * @param <T>
+ * @param <T> 递归类型
  */
 @FunctionalInterface
 public interface TailCall<T>

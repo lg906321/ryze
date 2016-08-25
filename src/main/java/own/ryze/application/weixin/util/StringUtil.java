@@ -2,8 +2,7 @@ package own.ryze.application.weixin.util;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import own.ryze.application.weixin.functioninterface.TailCall;
+import java.util.stream.Stream;
 
 /**
  * 字符串工具
@@ -43,7 +42,7 @@ public class StringUtil
 			.append(Character.toUpperCase(str.charAt(0))).append(str.toLowerCase().substring(1)).toString();
 
 	/**
-	 * 多条件校验字符串 (后写先校验)
+	 * 多条件校验字符串 (先写先校验)
 	 * 
 	 * @param str
 	 *            校验字符串
@@ -54,11 +53,20 @@ public class StringUtil
 	@SafeVarargs
 	public static boolean validate(final String str, final Predicate<String>... predicates)
 	{
-		return recursionPredicate(predicates.length - 1, predicates).invoke().test(str);
+		return Stream.of(predicates).reduce((current,next) -> current.and(next)).orElseGet(StringUtil::identity).test(str);
 	}
 	
 	/**
-	 * 多操作修改字符串(后写先操作)
+	 * 默认校验失败
+	 * @return
+	 */
+	private static Predicate<String> identity()
+	{
+		return s -> false;
+	}
+	
+	/**
+	 * 多操作修改字符串(先写先操作)
 	 * 
 	 * @param str
 	 *            字符串
@@ -69,61 +77,6 @@ public class StringUtil
 	@SafeVarargs
 	public static String operate(final String str, final Function<String, String>... functions)
 	{
-		return recursionFunction(functions.length - 1, functions).invoke().apply(str);
-	}
-
-	/**
-	 * 递归创建条件
-	 * 
-	 * @param length
-	 * @param predicates
-	 * @return
-	 */
-	@SafeVarargs
-	private static TailCall<Predicate<String>> recursionPredicate(final int length, final Predicate<String>... predicates)
-	{
-		return length == 0 ? finish(predicates[0]) : () -> recursionPredicate(length - 1, predicates[length].and(predicates[length - 1]));
-	}
-	
-	/**
-	 * 递归创建操作
-	 * @param length
-	 * @param predicates
-	 * @return
-	 */
-	@SafeVarargs
-	private static TailCall<Function<String,String>> recursionFunction(final int length, final Function<String,String>... functions)
-	{
-		return length == 0 ? finish(functions[0]) : () -> recursionFunction(length - 1, functions[length].andThen(functions[length - 1]));
-	}
-
-	/**
-	 * 回调返回值
-	 * 
-	 * @param value
-	 * @return
-	 */
-	private static <T> TailCall<T> finish(final T value)
-	{
-		return new TailCall<T>()
-		{
-			@Override
-			public boolean isComplete()
-			{
-				return true;
-			}
-
-			@Override
-			public T result()
-			{
-				return value;
-			}
-
-			@Override
-			public TailCall<T> apply()
-			{
-				return null;
-			}
-		};
+		return Stream.of(functions).reduce((current,next) -> current.andThen(next)).orElseGet(Function::identity).apply(str);
 	}
 }
