@@ -5,6 +5,14 @@ import org.junit.Test;
 import own.ryze.application.weixin.functioninterface.TailCall;
 import static own.ryze.application.weixin.util.StringUtil.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 public class RyzeApplicationTests
 {
 	@Test
@@ -26,9 +34,17 @@ public class RyzeApplicationTests
 		// list.stream().filter(s -> validate(s, isNotEmpty,
 		// isMobile)).collect(Collectors.toList())
 		// .forEach(System.out::println);
+		
+		List<Integer> list = Arrays.asList(1,2,3,10,15,32,17);
+		Map<Integer, List<Integer>> collect = list.parallelStream().filter(i -> i >10).collect(Collectors.groupingBy(i -> i));
+		for (Entry<Integer,List<Integer>> e : collect.entrySet())
+		{
+			System.out.println(e.getKey());
+			System.out.println(e.getValue());
+		}
 
-		boolean validate2 = validate(null,isMobile,isNotEmpty);
-		System.out.println(validate2);
+//		boolean validate2 = validate(null,isMobile,isNotEmpty);
+//		System.out.println(validate2);
 //		long dg1 = dg1(15000);
 //		System.out.println(dg1);
 //		long dg2 = dg2(15000);

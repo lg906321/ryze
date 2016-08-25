@@ -1,7 +1,6 @@
 package own.ryze.application.weixin.aop;
 
 import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,15 +44,15 @@ public class WebAop
 	public void doBefore(JoinPoint joinPoint) throws Throwable
 	{
 		// 接收到请求，记录请求内容
-		final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes();
 		final HttpServletRequest request = attributes.getRequest();
 
 		// 记录下请求内容
 		log.info("url : {}", request.getRequestURL());
 		log.info("请求方式 : {}", request.getMethod());
 		log.info("IP地址 : {}", request.getRemoteAddr());
-		log.info("方法 : {}.{}", joinPoint.getSignature().getDeclaringTypeName(),
-				joinPoint.getSignature().getName());
+		log.info("方法 : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
 		log.info("参数 : {}", Arrays.toString(joinPoint.getArgs()));
 
 	}
@@ -71,13 +70,10 @@ public class WebAop
 		final boolean hasErrors = br.hasErrors();
 		if (hasErrors)
 		{
-			final List<ObjectError> allErrors = br.getAllErrors();
-			for (ObjectError oe : allErrors)
-			{
-				final JSONObject json = JSON.parseObject(oe.getDefaultMessage());
+			final ObjectError objectError = br.getAllErrors().stream().findFirst().get();
+			final JSONObject json = JSON.parseObject(objectError.getDefaultMessage());
 
-				return PortReturn.returnJSON(json.getInteger("code"),json.getString("msg"));
-			}
+			return PortReturn.returnJSON(json.getInteger("code"), json.getString("msg"));
 		}
 		return pjp.proceed();
 	}
